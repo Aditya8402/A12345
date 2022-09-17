@@ -147,3 +147,8 @@ void manage_usr-acc(string usrname,string passwd)
 	}
 }
 
+void main()
+{
+	User['aditya']='1234';
+	compose();
+}
