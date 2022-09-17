@@ -4,6 +4,35 @@ using namespace std;
 
 unordered_map<string,string> User;
 
+class Mail
+{
+
+	public:
+	string usrname;
+	string dest;
+	string sub;
+	string body;
+	bool starred;
+
+}
+
+class Usermails
+{
+	public:
+	string usrname,passwd;
+	Usermails(string usr,string pass)
+	{
+		usrname=usr;
+		passwd=pass;
+	}
+	list <Mail> spam;
+	list <Mail> drafts;
+	list <Mail> unread;
+	list <Mail> starred;
+	list <Mail> sentmail;
+	list <Mail> inbox;
+}
+
 void register(string usrname,string passwd)
 {
 User[usrname]=passwd;
@@ -16,7 +45,6 @@ User[usrname]=passwd;
     {
       int test1;
       cout<<"1 for Mails, 2 for manage_usr_account
-	      cin>>test1
         switch(test1)
         {
 
@@ -34,18 +62,13 @@ void Mails(usrname)
 {
   int test;
   cout<<"1 for diplay, 2 delete, 3 compose, 4 inbox\n";
-	cin>>test;
   swich(test)
   {
 
     case 1: display();
-	  break;
     case 2: deletemail();
-	  break;
     case 3: compose(usrname);
-	  break;
     case 4: inbox();
-	  break;
     default: return;
     
   }
@@ -60,9 +83,7 @@ void login(string username , password){
   return false;
 }
 void display(){
-	int test2;
-	cin>>test2;
-    switch(test2){
+    switch(test){
         case 1:spam(username);
         break;
         case 2:drafts(username);
@@ -95,4 +116,33 @@ void drafts(auto obj)
 void unread(auto obj)
 {
 	showList(obj.unreadlist);
+}
+
+void compose(string usrname)
+{
+
+	Mail obj;
+	cout<<"usrname,dest,sub,body,starred\n";
+	cin>>obj.usrname>>obj.dest>>obj.sub>>obj.body>>obj.starred;
+	int test,temp;
+	cout<<"1 for send\n"
+		switch(test)
+		{
+			case 1: {
+				cout<<"Send?\n";
+				cin>>temp;
+				if(temp>0) sendlist.append(obj);
+			}
+			default: draftlist.append(obj);
+		}
+}
+
+void manage_usr-acc(string usrname,string passwd)
+{
+	auto it = find(User[usrname]);
+	if(it)
+	{
+
+		User.erase(passwd);
+	}
 }
