@@ -146,3 +146,4 @@ void manage_usr-acc(string usrname,string passwd)
 		User.erase(passwd);
 	}
 }
+
