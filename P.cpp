@@ -16,6 +16,7 @@ User[usrname]=passwd;
     {
       int test1;
       cout<<"1 for Mails, 2 for manage_usr_account
+	      cin>>test1
         switch(test1)
         {
 
@@ -33,13 +34,18 @@ void Mails(usrname)
 {
   int test;
   cout<<"1 for diplay, 2 delete, 3 compose, 4 inbox\n";
+	cin>>test;
   swich(test)
   {
 
     case 1: display();
+	  break;
     case 2: deletemail();
+	  break;
     case 3: compose(usrname);
+	  break;
     case 4: inbox();
+	  break;
     default: return;
     
   }
@@ -54,7 +60,9 @@ void login(string username , password){
   return false;
 }
 void display(){
-    switch(test){
+	int test2;
+	cin>>test2;
+    switch(test2){
         case 1:spam(username);
         break;
         case 2:drafts(username);
