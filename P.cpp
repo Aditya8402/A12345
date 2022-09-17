@@ -1,5 +1,6 @@
-#include<bits/stdc++.h>
 
+#include<bits/stdc++.h>
+#include<list>
 using namespace std;
 
 unordered_map<string,string> User;
@@ -14,7 +15,7 @@ class Mail
 	string body;
 	bool starred;
 
-}
+};
 
 class Usermails
 {
@@ -25,12 +26,86 @@ class Usermails
 		usrname=usr;
 		passwd=pass;
 	}
-	list <Mail> spam;
-	list <Mail> drafts;
-	list <Mail> unread;
-	list <Mail> starred;
-	list <Mail> sentmail;
-	list <Mail> inbox;
+	list <Mail> spamlist;
+	list <Mail> draftlist;
+	list <Mail> unreadlist;
+	list <Mail> starredlist;
+	list <Mail> sentmaillist;
+	list <Mail> inboxlist;
+};
+
+void showlist(list <Mail> g)
+{
+    auto it = g.begin();
+    while(it != g.end())
+    {
+        cout<<it->usrname<<" "<<it->dest<<" "<<it->sub<<" "<<it->body<<"\n";
+        ++it;
+    }
+}
+void inbox(auto obj)
+{
+	showlist(obj.inboxlist);
+}
+void starred(auto obj)
+{
+	showlist(obj.starredlist);
+}
+void spam(auto obj)
+{
+	showlist(obj.spamlist);
+}
+void drafts(auto obj)
+{
+	showlist(obj.draftlist);
+}
+void unread(auto obj)
+{
+	showlist(obj.unreadlist);
+}
+void compose(string usrname,string passwd)
+{
+    Usermails objs(usrname,passwd);
+	Mail obj;
+	cout<<"usrname,dest,sub,body,starred\n";
+	cin>>obj.usrname>>obj.dest>>obj.sub>>obj.body>>obj.starred;
+	int test,temp;
+	cout<<"1 for send\n";
+		switch(test)
+		{
+			case 1: {
+				cout<<"Send?\n";
+				cin>>temp;
+				if(temp>0) objs.sentmaillist.push_back(obj);
+			}break;
+			default: objs.draftlist.push_back(obj);
+		}
+}
+
+void manage_usr_account(string usrname,string passwd)
+{
+	auto it = User.find(usrname);
+		User.erase(passwd);
+	
+}
+
+void display(string usrname,string passwd){
+    int test;
+    Usermails objjs(usrname,passwd);
+    cout<<"1 spam 2 drafts 3 unread 4 starred 5 inbox\n";
+    cin>>test;
+    switch(test){
+        case 1:spam(objjs);
+        break;
+        case 2:drafts(objjs);
+        break;
+        case 3:unread(objjs);
+        break;
+        case 4:starred(objjs);
+        break;
+        case 5:inbox(objjs);break;
+        default : return;
+    }
 }
 
 void register(string usrname,string passwd)
@@ -44,111 +119,69 @@ User[usrname]=passwd;
     case 1: if(login(usrname,passwd))
     {
       int test1;
-      cout<<"1 for Mails, 2 for manage_usr_account
+      cout<<"1 for Mails, 2 for manage_usr_account";
         switch(test1)
         {
-
-          case 1: Mails(usrname);
-          case 2: manage_usr_acc(usrname);
+          case 1: Mails(usrname,passwd);break;
+          case 2: manage_usr_acc(usrname);break;
           default: return;
         
         }
-      default: exit;
-      
     }
+    break;
+    default: exit;
   }
 }
-void Mails(usrname)
+bool login(string username ,string password)
 {
+
+  if(User[username]==password){
+    return true;
+  }  
+  
+  return false;
+}
+
+void Mails(string usrname,string passwd)
+{
+    Usermails obj(usrname,passwd);
   int test;
   cout<<"1 for diplay, 2 delete, 3 compose, 4 inbox\n";
-  swich(test)
+  switch(test)
   {
-
-    case 1: display();
-    case 2: deletemail();
-    case 3: compose(usrname);
-    case 4: inbox();
+    case 1: display(usrname,passwd);break;
+    case 3: compose(usrname,passwd);break;
+    case 4: inbox(obj);break;
     default: return;
     
   }
   
 }
-void login(string username , password){
- if(user[username]!=user.end())
-  {if(user[username]== password){
-    return true;
-  }  
-  }
-  return false;
-}
-void display(){
-    switch(test){
-        case 1:spam(username);
-        break;
-        case 2:drafts(username);
-        break;
-        case 3:unread(username);
-        break;
-        case 4:starred(username);
-        break;
-        case 5:inbox(username);
-        default : return;
-    }
-}
 
-void inbox(auto obj)
-{
-	showList(obj.inboxlist);
-}
-void starred(auto obj)
-{
-	showList(obj.starredlist);
-}
-void spam(auto obj)
-{
-	showList(obj.spamlist);
-}
-void drafts(auto obj)
-{
-	showList(obj.draftlist);
-}
-void unread(auto obj)
-{
-	showList(obj.unreadlist);
-}
 
-void compose(string usrname)
+int main()
 {
-
-	Mail obj;
-	cout<<"usrname,dest,sub,body,starred\n";
-	cin>>obj.usrname>>obj.dest>>obj.sub>>obj.body>>obj.starred;
-	int test,temp;
-	cout<<"1 for send\n"
-		switch(test)
-		{
-			case 1: {
-				cout<<"Send?\n";
-				cin>>temp;
-				if(temp>0) sendlist.append(obj);
-			}
-			default: draftlist.append(obj);
-		}
-}
-
-void manage_usr-acc(string usrname,string passwd)
-{
-	auto it = find(User[usrname]);
-	if(it)
+	User["aditya"]="1234";
+	compose("aditya","1234");
+	cout<<"1.login 2.Register";
+	int ch;
+	cin>>ch;
+	switch(ch)
 	{
-
-		User.erase(passwd);
+		case 1: if(login("aditya","1234"))
+       {
+            int test1;
+            cout<<"1 for Mails, 2 for manage_usr_account";
+            switch(test1)
+           {
+            case 1: Mails("aditya","1234");break;
+            case 2: manage_usr_account("aditya","1234");break;
+            default: return 0;
+           }
+        }
+        break;
+        case 2: register("aditya","1234");
+            break;
 	}
-}
-
-void main()
-{
-	User['aditya']='1234';
-	compose();
+	return 0;
 }
